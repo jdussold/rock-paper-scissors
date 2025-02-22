@@ -16,3 +16,32 @@ function getComputerChoice() {
   console.log("The computer's choice is: ", computerChoice);
   return computerChoice;
 }
+
+// create a function named 'getHumanChoice" that will return one of the 3 valide choices ("rock", "paper", or "scissors") via user input.
+function getHumanChoice() {
+  let humanChoice = prompt(
+    `Enter your choice of "rock", "paper", or "scissors" below:`
+  );
+
+  if (humanChoice != null) {
+    humanChoice = humanChoice.toLowerCase();
+  } else {
+    alert(`User cancelled the prompt`);
+    return;
+  }
+
+  console.log(humanChoice);
+
+  if (
+    humanChoice != 'rock' &&
+    humanChoice != 'paper' &&
+    humanChoice != 'scissors'
+  ) {
+    alert(
+      `Please enter a valid choice of either "rock", "paper", or "scissors"`
+    );
+    getHumanChoice();
+  } else {
+    alert(`Thank you.  You have chosen "${humanChoice}"`);
+  }
+}
