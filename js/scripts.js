@@ -1,47 +1,81 @@
-// create a function named 'getComputerChoice' that will randomly return one of 3 choices (rock, paper, or scissors)
-// Use Math.random to get a number between 1 and 3
 function getComputerChoice() {
+  // Generate a random number and assign rock, paper, or scissors
   let randomNum = Math.floor(Math.random() * 3) + 1;
-  console.log('The random number is: ', randomNum);
-
-  let computerChoice;
-
-  if (randomNum === 1) {
-    computerChoice = 'rock';
-  } else if (randomNum === 2) {
-    computerChoice = 'paper';
-  } else {
-    computerChoice = 'scissors';
-  }
-  console.log("The computer's choice is: ", computerChoice);
-  return computerChoice;
+  return randomNum === 1 ? 'rock' : randomNum === 2 ? 'paper' : 'scissors';
 }
 
-// create a function named 'getHumanChoice" that will return one of the 3 valide choices ("rock", "paper", or "scissors") via user input.
-function getHumanChoice() {
+function getHumanChoice(round) {
+  // Prompt user for choice, showing the correct round number
   let humanChoice = prompt(
-    `Enter your choice of "rock", "paper", or "scissors" below:`
+    `Let's play Rock, Paper, Scissors! Best of 5 rounds.\nRound ${
+      round + 1
+    }:\nChoose rock, paper, or scissors:`
   );
 
-  if (humanChoice != null) {
-    humanChoice = humanChoice.toLowerCase();
-  } else {
-    alert(`User cancelled the prompt`);
-    return;
+  if (!humanChoice) return null; // Handle user canceling
+
+  humanChoice = humanChoice.toLowerCase(); // Convert input to lowercase
+
+  // Validate input and recursively prompt again if invalid
+  if (!['rock', 'paper', 'scissors'].includes(humanChoice)) {
+    alert(`Invalid choice. Please enter rock, paper, or scissors.`);
+    return getHumanChoice(round);
   }
 
-  console.log(humanChoice);
+  return humanChoice;
+}
 
+// Track scores globally
+let humanScore = 0;
+let computerScore = 0;
+
+function updateGameScore() {
+  // Show current scores after each round
+  alert(`Your Score: ${humanScore}\nComputer Score: ${computerScore}`);
+}
+
+function playRound(humanChoice, computerChoice) {
+  // Determine winner based on standard Rock Paper Scissors rules
   if (
-    humanChoice != 'rock' &&
-    humanChoice != 'paper' &&
-    humanChoice != 'scissors'
+    (humanChoice === 'rock' && computerChoice === 'scissors') ||
+    (humanChoice === 'paper' && computerChoice === 'rock') ||
+    (humanChoice === 'scissors' && computerChoice === 'paper')
   ) {
-    alert(
-      `Please enter a valid choice of either "rock", "paper", or "scissors"`
-    );
-    getHumanChoice();
+    alert(`You won! ${humanChoice} beats ${computerChoice}.`);
+    humanScore++; // Increase human score
+  } else if (humanChoice === computerChoice) {
+    alert(`It's a tie! You both chose ${humanChoice}.`);
   } else {
-    alert(`Thank you.  You have chosen "${humanChoice}"`);
+    alert(`You lost! ${computerChoice} beats ${humanChoice}.`);
+    computerScore++; // Increase computer score
+  }
+  updateGameScore(); // Display updated scores
+}
+
+function playGame() {
+  // Loop through 5 rounds
+  for (let round = 0; round < 5; round++) {
+    const humanSelection = getHumanChoice(round);
+    if (!humanSelection) {
+      alert('Game canceled by user.'); // Stop if user cancels
+      return;
+    }
+
+    const computerSelection = getComputerChoice();
+    playRound(humanSelection, computerSelection);
+  }
+
+  // Display final results
+  if (humanScore > computerScore) {
+    alert(`🎉 You won the game! Final Score: ${humanScore} - ${computerScore}`);
+  } else if (humanScore < computerScore) {
+    alert(
+      `😢 You lost the game. Final Score: ${computerScore} - ${humanScore}`
+    );
+  } else {
+    alert(`🤝 It's a tie! Final Score: ${humanScore} - ${computerScore}`);
   }
 }
+
+// Start the game
+playGame();
