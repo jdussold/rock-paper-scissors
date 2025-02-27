@@ -1,81 +1,95 @@
-function getComputerChoice() {
-  // Generate a random number and assign rock, paper, or scissors
-  let randomNum = Math.floor(Math.random() * 3) + 1;
-  return randomNum === 1 ? 'rock' : randomNum === 2 ? 'paper' : 'scissors';
-}
+let playerScore = 0;
+let computerScore = 0;
+let round = 1;
 
-function getHumanChoice(round) {
-  // Prompt user for choice, showing the correct round number
-  let humanChoice = prompt(
-    `Let's play Rock, Paper, Scissors! Best of 5 rounds.\nRound ${
-      round + 1
-    }:\nChoose rock, paper, or scissors:`
+// Get player choice:
+function getPlayerChoice() {
+  let playerChoice = prompt(
+    `Round ${round} of 5.\nEnter Rock, Paper, or Scissors: `
   );
 
-  if (!humanChoice) return null; // Handle user canceling
-
-  humanChoice = humanChoice.toLowerCase(); // Convert input to lowercase
-
-  // Validate input and recursively prompt again if invalid
-  if (!['rock', 'paper', 'scissors'].includes(humanChoice)) {
-    alert(`Invalid choice. Please enter rock, paper, or scissors.`);
-    return getHumanChoice(round);
+  if (!playerChoice) {
+    alert(`Player canceled the game.`);
+    return;
   }
 
-  return humanChoice;
+  playerChoice = playerChoice.toLowerCase();
+
+  if (!['rock', 'paper', 'scissors'].includes(playerChoice)) {
+    alert(`Invalid choice.  Please enter Rock, Paper, or Scissors.`);
+    return getPlayerChoice();
+  }
+  console.log(`Player Choice: `, playerChoice);
+  return playerChoice;
 }
 
-// Track scores globally
-let humanScore = 0;
-let computerScore = 0;
+// Get computer choice:
+function getComputerChoice() {
+  let randomNum = Math.floor(Math.random() * 3) + 1;
 
-function updateGameScore() {
-  // Show current scores after each round
-  alert(`Your Score: ${humanScore}\nComputer Score: ${computerScore}`);
+  let computerChoice =
+    randomNum === 1 ? 'rock' : randomNum === 2 ? 'paper' : 'scissors';
+
+  console.log(`Random Number: `, randomNum);
+  console.log(`Computer Choice: `, computerChoice);
+  return computerChoice;
 }
 
-function playRound(humanChoice, computerChoice) {
-  // Determine winner based on standard Rock Paper Scissors rules
+// Play a round
+function playRound() {
+  let playerChoice = getPlayerChoice();
+  let computerChoice = getComputerChoice();
+
   if (
-    (humanChoice === 'rock' && computerChoice === 'scissors') ||
-    (humanChoice === 'paper' && computerChoice === 'rock') ||
-    (humanChoice === 'scissors' && computerChoice === 'paper')
+    (playerChoice === 'rock' && computerChoice === 'scissors') ||
+    (playerChoice === 'paper' && computerChoice === 'rock') ||
+    (playerChoice === 'scissors' && computerChoice === 'paper')
   ) {
-    alert(`You won! ${humanChoice} beats ${computerChoice}.`);
-    humanScore++; // Increase human score
-  } else if (humanChoice === computerChoice) {
-    alert(`It's a tie! You both chose ${humanChoice}.`);
-  } else {
-    alert(`You lost! ${computerChoice} beats ${humanChoice}.`);
-    computerScore++; // Increase computer score
-  }
-  updateGameScore(); // Display updated scores
-}
-
-function playGame() {
-  // Loop through 5 rounds
-  for (let round = 0; round < 5; round++) {
-    const humanSelection = getHumanChoice(round);
-    if (!humanSelection) {
-      alert('Game canceled by user.'); // Stop if user cancels
-      return;
-    }
-
-    const computerSelection = getComputerChoice();
-    playRound(humanSelection, computerSelection);
-  }
-
-  // Display final results
-  if (humanScore > computerScore) {
-    alert(`🎉 You won the game! Final Score: ${humanScore} - ${computerScore}`);
-  } else if (humanScore < computerScore) {
+    round++;
+    playerScore++;
     alert(
-      `😢 You lost the game. Final Score: ${computerScore} - ${humanScore}`
+      `🎉 You won! ${
+        playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1)
+      } beats ${
+        computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)
+      }\nThe current score is: ${playerScore} - ${computerScore}`
+    );
+  } else if (playerChoice === computerChoice) {
+    round++;
+    alert(
+      `🟰 Tie game. ${
+        playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1)
+      } is the same as ${
+        computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)
+      }\nThe current score is still: ${playerScore} - ${computerScore}`
     );
   } else {
-    alert(`🤝 It's a tie! Final Score: ${humanScore} - ${computerScore}`);
+    round++;
+    computerScore++;
+    alert(
+      `😞 You lost. ${
+        computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)
+      } beats ${
+        playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1)
+      }\nThe current score is: ${playerScore} - ${computerScore}`
+    );
   }
 }
 
-// Start the game
-playGame();
+// Play whole game (5 rounds)
+function playGame() {
+  while (round <= 5) {
+    playRound();
+  }
+  if (playerScore > computerScore) {
+    alert(
+      `🎉 Congratulations! You won!\nFinal Score: ${playerScore} - ${computerScore}`
+    );
+  } else if (playerScore < computerScore) {
+    alert(
+      `😞 Sorry, you lost.\nFinal Score: ${playerScore} - ${computerScore}`
+    );
+  } else {
+    alert(`🟰 Tie game.\nFinal score: ${playerScore} - ${computerScore}`);
+  }
+}
