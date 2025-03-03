@@ -1,4 +1,152 @@
+/* Light Theme (Default) */
+:root {
+  /* Background Colors */
+  --bg-page: #eaeef4;
+  --bg-header: #f5f6f9;
+  --bg-container: #ffffff;
+  --bg-container-hover: #daeeff;
+  --bg-container-selected: #cee9fc;
+  --bg-container-header: #f5f6f9;
+
+  /* Button Colors */
+  --btn: #005a8f;
+  --btn-hover: #004872;
+  --btn-muted: #2f7aa7;
+
+  /* Status Colors */
+  --status-success: #00e200;
+  --status-warning: #ffaf3d;
+  --status-in-progress: #fad800;
+  --status-error: #ff2a04;
+  --status-info: #64d9ff;
+
+  /* Border Colors */
+  --border: var(--btn);
+  --border-hover: var(--btn-hover);
+  --border-muted: var(--btn-muted);
+  --border-error: var(--status-error);
+
+  /* Text Colors */
+  --text: #292a2d;
+  --text-secondary: #51555b;
+  --text-placeholder: #7b8089;
+  --text-interactive: var(--btn);
+  --text-interactive-hover: var(--btn-hover);
+  --text-error: var(--status-error);
+
+  /* Link Colors */
+  --link: var(--btn);
+  --link-hover: var(--btn-hover);
+  --link-visited: var(--btn-muted);
+
+  /* Fonts */
+  --font-base: 'Roboto', sans-serif;
+  --font-monospace: 'Roboto Mono', monospace;
+}
+
+/* Dark Theme Overrides */
+.dark-theme {
+  /* Background Colors */
+  --bg-page: #101923;
+  --bg-header: #172635;
+  --bg-container: #1b2d3e;
+  --bg-container-hover: #1c3851;
+  --bg-container-selected: #1c3f5e;
+  --bg-container-header: var(--bg-header);
+
+  /* Button Colors */
+  --btn: #4dacff;
+  --btn-hover: #92cbff;
+  --btn-muted: #2b659b;
+
+  /* Status Colors */
+  --status-success: #56f000;
+  --status-warning: #ffb302;
+  --status-in-progress: #fceb3a;
+  --status-error: #ff3b38;
+  --status-info: #00c7cb;
+
+  /* Border Colors */
+  --border: var(--btn);
+  --border-hover: var(--btn-hover);
+  --border-muted: var(--btn-muted);
+  --border-error: var(--status-error);
+
+  /* Text Colors */
+  --text: #ffffff;
+  --text-secondary: #d4dbdd;
+  --text-placeholder: #a4abb6;
+  --text-interactive: var(--btn);
+  --text-interactive-hover: var(--btn-hover);
+  --text-error: var(--status-error);
+
+  /* Link Colors */
+  --link: var(--btn);
+  --link-hover: var(--btn-hover);
+  --link-visited: var(--btn-muted);
+}
+
+/* Link Styles */
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+a:visited {
+  color: var(--link-visited);
+}
+
 body {
-  background-color: #1e2932;
-  color: #f3f3f3;
+  background-color: var(--bg-page);
+  color: var(--text);
+  font-family: var(--font-base);
+  margin: 0;
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.prompts-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+}
+
+/* Header */
+h3 {
+  color: var(--text-interactive);
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: var(--btn);
+  color: var(--bg-page);
+  font-family: var(--font-base);
+  font-weight: 700;
+  padding: 4px 16px;
+  border-radius: 3px;
+  border: none;
+}
+
+button:hover {
+  background-color: var(--btn-hover);
+  cursor: pointer;
 }
